@@ -16,6 +16,7 @@ angular
     'ngResource',
     'ngSanitize',
     'ngTouch',
+    'selectState',
     'ui.router'
   ])
   .run(function ($rootScope, $state, $stateParams) {

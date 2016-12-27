@@ -11,40 +11,239 @@ angular.module('clientApp')
   .controller('MainCtrl', [
     '$http',
     '$scope',
-  function ($http, $scope) { // note the added $http depedency
+    '$window',
+  function ($http, $scope, $window) { // note the added $http depedency
+    console.log('MainCtrl');
 
-    $scope.user = {};
-    
+		$scope.states = [
+			{
+				"name": "Alabama",
+				"abbreviation": "AL"
+			},
+			{
+				"name": "Alaska",
+				"abbreviation": "AK"
+			},
+			{
+				"name": "Arizona",
+				"abbreviation": "AZ"
+			},
+			{
+				"name": "Arkansas",
+				"abbreviation": "AR"
+			},
+			{
+				"name": "California",
+				"abbreviation": "CA"
+			},
+			{
+				"name": "Colorado",
+				"abbreviation": "CO"
+			},
+			{
+				"name": "Connecticut",
+				"abbreviation": "CT"
+			},
+			{
+				"name": "Delaware",
+				"abbreviation": "DE"
+			},
+			{
+				"name": "District Of Columbia",
+				"abbreviation": "DC"
+			},
+			{
+				"name": "Florida",
+				"abbreviation": "FL"
+			},
+			{
+				"name": "Georgia",
+				"abbreviation": "GA"
+			},
+			{
+				"name": "Hawaii",
+				"abbreviation": "HI"
+			},
+			{
+				"name": "Idaho",
+				"abbreviation": "ID"
+			},
+			{
+				"name": "Illinois",
+				"abbreviation": "IL"
+			},
+			{
+				"name": "Indiana",
+				"abbreviation": "IN"
+			},
+			{
+				"name": "Iowa",
+				"abbreviation": "IA"
+			},
+			{
+				"name": "Kansas",
+				"abbreviation": "KS"
+			},
+			{
+				"name": "Kentucky",
+				"abbreviation": "KY"
+			},
+			{
+				"name": "Louisiana",
+				"abbreviation": "LA"
+			},
+			{
+				"name": "Maine",
+				"abbreviation": "ME"
+			},
+			{
+				"name": "Maryland",
+				"abbreviation": "MD"
+			},
+			{
+				"name": "Massachusetts",
+				"abbreviation": "MA"
+			},
+			{
+				"name": "Michigan",
+				"abbreviation": "MI"
+			},
+			{
+				"name": "Minnesota",
+				"abbreviation": "MN"
+			},
+			{
+				"name": "Mississippi",
+				"abbreviation": "MS"
+			},
+			{
+				"name": "Missouri",
+				"abbreviation": "MO"
+			},
+			{
+				"name": "Montana",
+				"abbreviation": "MT"
+			},
+			{
+				"name": "Nebraska",
+				"abbreviation": "NE"
+			},
+			{
+				"name": "Nevada",
+				"abbreviation": "NV"
+			},
+			{
+				"name": "New Hampshire",
+				"abbreviation": "NH"
+			},
+			{
+				"name": "New Jersey",
+				"abbreviation": "NJ"
+			},
+			{
+				"name": "New Mexico",
+				"abbreviation": "NM"
+			},
+			{
+				"name": "New York",
+				"abbreviation": "NY"
+			},
+			{
+				"name": "North Carolina",
+				"abbreviation": "NC"
+			},
+			{
+				"name": "North Dakota",
+				"abbreviation": "ND"
+			},
+			{
+				"name": "Ohio",
+				"abbreviation": "OH"
+			},
+			{
+				"name": "Oklahoma",
+				"abbreviation": "OK"
+			},
+			{
+				"name": "Oregon",
+				"abbreviation": "OR"
+			},
+			{
+				"name": "Pennsylvania",
+				"abbreviation": "PA"
+			},
+			{
+				"name": "Rhode Island",
+				"abbreviation": "RI"
+			},
+			{
+				"name": "South Carolina",
+				"abbreviation": "SC"
+			},
+			{
+				"name": "South Dakota",
+				"abbreviation": "SD"
+			},
+			{
+				"name": "Tennessee",
+				"abbreviation": "TN"
+			},
+			{
+				"name": "Texas",
+				"abbreviation": "TX"
+			},
+			{
+				"name": "Utah",
+				"abbreviation": "UT"
+			},
+			{
+				"name": "Vermont",
+				"abbreviation": "VT"
+			},
+			{
+				"name": "Virginia",
+				"abbreviation": "VA"
+			},
+			{
+				"name": "Washington",
+				"abbreviation": "WA"
+			},
+			{
+				"name": "West Virginia",
+				"abbreviation": "WV"
+			},
+			{
+				"name": "Wisconsin",
+				"abbreviation": "WI"
+			},
+			{
+				"name": "Wyoming",
+				"abbreviation": "WY"
+			}
+		];
+	$scope.address = {};
+	
     // This is our method that will post to our server.
-    $scope.signupSubmit = function () {
-      console.log('signupSubmit');
-      console.log('user = ' + JSON.stringify($scope.user, null, 2));
+    $scope.addressSubmit = function () {
+      console.log('addressSubmit');
+      console.log('address = ' + JSON.stringify($scope.address, null, 2));
       
       // make sure all fields are filled out...
-      // aren't you glad you're not typing out
-      // $scope.signup.user.firstname everytime now??
       if (
-        !$scope.user.firstname ||
-        !$scope.user.lastname ||
-        !$scope.user.email ||
-        !$scope.user.password1 ||
-        !$scope.user.password2
+        !$scope.address.street ||
+        !$scope.address.city ||
+        !$scope.address.state ||
+        !$scope.address.zipcode
       ) {
-//        alert('Please fill out all form fields.');
+        $window.alert('Please fill out all form fields.');
         return false;
       }
-
-      // make sure the passwords match match
-      if ($scope.user.password1 !== $scope.user.password2) {
-//        alert('Your passwords must match.');
-        return false;
-      }
-
+/*
       // Just so we can confirm that the bindings are working
-      console.log($scope.user);
+      console.log($scope.address);
 
       // Make the request to the server ... which doesn't exist just yet
-      var request = $http.post('/signup', $scope.user);
+      var request = $http.post('/signup', $scope.address);
 
       // we'll come back to here and fill in more when ready
       request.success(function (data) {
@@ -54,6 +253,7 @@ angular.module('clientApp')
       request.error(function (data) {
         console.log(data);
       });
+     */
 
     };
     

@@ -7,50 +7,44 @@
 
   <div class="signup-form">
     
-    <form ng-submit="signupSubmit()"  class="form-horizontal">
+    <form ng-submit="addressSubmit()"  class="form-horizontal">
 
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="firstname">First Name</label>  
+      <label class="col-md-4 control-label" for="street">Street Address</label>  
       <div class="col-md-5">
-      <input id="firstname" name="firstname" ng-model="user.firstname" type="text" placeholder="Bessie" class="form-control input-md">
-        
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="lastname">Last Name</label>  
-      <div class="col-md-5">
-      <input id="lastname" name="lastname" ng-model="user.lastname" type="text" placeholder="Malek" class="form-control input-md">
+      <input id="street" name="street" ng-model="address.street" type="text" placeholder="1002 Fairlawn Dr." class="form-control input-md">
         
       </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="email">Email</label>  
+      <label class="col-md-4 control-label" for="city">City</label>  
       <div class="col-md-5">
-      <input id="email" name="email" ng-model="user.email" type="text" placeholder="amnotafraid@gmail.com" class="form-control input-md">
+      <input id="city" name="city" ng-model="address.city" type="text" placeholder="Urbana" class="form-control input-md">
         
       </div>
     </div>
 
-    <!-- Password input-->
+    <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="password1">Password</label>
+      <label class="col-md-4 control-label" for="state">State</label>  
       <div class="col-md-5">
-        <input id="password1" name="password1" ng-model="user.password1" type="password" placeholder="" class="form-control input-md">
+        <!--      <input id="state" name="state" ng-model="address.state" type="text" placeholder="amnotafraid@gmail.com" class="form-control input-md"> -->
+				<select ng-model="address.state">
+					<option ng-repeat="state in states">{{ state.abbreviation }}</option>
+				</select>
         
       </div>
     </div>
 
-    <!-- Password input-->
+    <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="password2">Retype Password</label>
+      <label class="col-md-4 control-label" for="zipcode">Zipcode</label>  
       <div class="col-md-5">
-        <input id="password2" name="password2" ng-model="user.password2" type="password" placeholder="" class="form-control input-md">
+      <input id="zipcode" name="zipcode" ng-model="address.zipcode" type="text" placeholder="61801" class="form-control input-md">
         
       </div>
     </div>
@@ -59,7 +53,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="signup"></label>
       <div class="col-md-5">
-        <button id="signup" name="signup" class="btn btn-success btn-block">Signup!</button>
+        <button id="signup" name="signup" class="btn btn-success btn-block">Submit Address</button>
       </div>
     </div>
 
