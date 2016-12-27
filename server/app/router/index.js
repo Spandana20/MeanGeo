@@ -1,12 +1,13 @@
 /**
  * The index of Routes
  */
-var user        = require('./endpoints/user');
+var geo         = require('./endpoints/geo');
+
 
 module.exports = function (
     app
     ) {
 
-  app.route('/signup')
-    .post(user.signup);
+  app.route('/geo')
+    .post(geo.fetch);
 };

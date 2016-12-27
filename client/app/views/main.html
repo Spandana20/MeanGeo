@@ -1,9 +1,12 @@
 <div class="form-container">
   <div class="col-md-12">
-    <h3 class="form-header">Signup as a New User</h3>
+    <h3 class="form-header">Enter your address and get your lat/long</h3>
     <hr>
     <br>
   </div>
+
+  <div>lattitude:  {{ lattitude }} </div>
+  <div>longitude:  {{ longitude }} </div>
 
   <div class="signup-form">
     
@@ -42,9 +45,9 @@
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="zipcode">Zipcode</label>  
+      <label class="col-md-4 control-label" for="zip">Zipcode</label>  
       <div class="col-md-5">
-      <input id="zipcode" name="zipcode" ng-model="address.zipcode" type="text" placeholder="61801" class="form-control input-md">
+      <input id="zip" name="zip" ng-model="address.zip" type="text" placeholder="61801" class="form-control input-md">
         
       </div>
     </div>

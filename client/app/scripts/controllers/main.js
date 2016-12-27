@@ -15,6 +15,9 @@ angular.module('clientApp')
   function ($http, $scope, $window) { // note the added $http depedency
     console.log('MainCtrl');
 
+		$scope.lattitude = 0;
+		$scope.longitude = 0;
+
 		$scope.states = [
 			{
 				"name": "Alabama",
@@ -233,27 +236,24 @@ angular.module('clientApp')
         !$scope.address.street ||
         !$scope.address.city ||
         !$scope.address.state ||
-        !$scope.address.zipcode
+        !$scope.address.zip
       ) {
         $window.alert('Please fill out all form fields.');
         return false;
       }
-/*
-      // Just so we can confirm that the bindings are working
-      console.log($scope.address);
 
-      // Make the request to the server ... which doesn't exist just yet
-      var request = $http.post('/signup', $scope.address);
+			$http({
+				method: 'POST',
+				data: $scope.address,
+				url: '/geo'
+			}).then(function successCallback(response) {
+				$scope.lattitude = response.data.x;
+				$scope.longitude = response.data.y;
 
-      // we'll come back to here and fill in more when ready
-      request.success(function (data) {
-        console.log(data);
-      });
-
-      request.error(function (data) {
-        console.log(data);
-      });
-     */
+        console.log(JSON.stringify(response.data));
+			}, function errorCallback(response) {
+				console.log(JSON.stringify(response.data));
+			});
 
     };
     
