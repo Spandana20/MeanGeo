@@ -23,9 +23,11 @@ angular
     $rootScope.$stateParams = $stateParams;
   })
   .config([
+    '$locationProvider',
     '$stateProvider',
     '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+    function ($locationProvider, $stateProvider, $urlRouterProvider) {
+      $locationProvider.hashPrefix("");
     $stateProvider
       .state('home', {
         url: '/',
