@@ -5,8 +5,8 @@
     <br>
   </div>
 
-  <div>lattitude:  {{ lattitude }} </div>
-  <div>longitude:  {{ longitude }} </div>
+  <div>lattitude:  {{ lattitude | latlong:'lat'}} </div>
+  <div>longitude:  {{ longitude | latlong:'lon'}} </div>
 
   <div class="signup-form">
     
