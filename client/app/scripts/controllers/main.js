@@ -13,10 +13,11 @@ angular.module('clientApp')
     '$scope',
     '$window',
   function ($http, $scope, $window) { // note the added $http depedency
-    console.log('MainCtrl');
 
-		$scope.lattitude = 0;
+		$scope.latitude = 0;
 		$scope.longitude = 0;
+
+    $scope.fDisplayLatLong = false;
 
 		$scope.states = [
 			{
@@ -228,17 +229,15 @@ angular.module('clientApp')
 	
     // This is our method that will post to our server.
     $scope.addressSubmit = function () {
-      console.log('addressSubmit');
-      console.log('address = ' + JSON.stringify($scope.address, null, 2));
+      
       
       // make sure all fields are filled out...
       if (
-        !$scope.address.street ||
-        !$scope.address.city ||
-        !$scope.address.state ||
-        !$scope.address.zip
+         !$scope.address.street ||
+          (!$scope.address.state && !$scope.address.zip) ||
+          ($scope.address.street && !$scope.address.city && $scope.address.state)
       ) {
-        $window.alert('Please fill out all form fields.');
+        $window.alert('Please fill out street address, city, and state, OR street address and zipcode');
         return false;
       }
 
@@ -247,12 +246,18 @@ angular.module('clientApp')
 				data: $scope.address,
 				url: '/geo'
 			}).then(function successCallback(response) {
-				$scope.lattitude = response.data.x;
-				$scope.longitude = response.data.y;
-
-        console.log(JSON.stringify(response.data));
+        if (response.status === 200) {
+          $scope.longitude = response.data.x;
+          $scope.latitude = response.data.y;
+          $scope.fDisplayLatLong = true;
+        }
+        else {
+          $scope.fDisplayLatLong = false;
+          $window.alert(response.data.message);
+        }
 			}, function errorCallback(response) {
-				console.log(JSON.stringify(response.data));
+        $scope.fDisplayLatLong = false;
+        $window.alert(response.data.message);
 			});
 
     };

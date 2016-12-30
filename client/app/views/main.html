@@ -5,9 +5,6 @@
     <br>
   </div>
 
-  <div>lattitude:  {{ lattitude | latlong:'lat'}} </div>
-  <div>longitude:  {{ longitude | latlong:'lon'}} </div>
-
   <div class="signup-form">
     
     <form ng-submit="addressSubmit()"  class="form-horizontal">
@@ -62,6 +59,23 @@
 
     </form>
   </div>
-
+	<div ng-show="fDisplayLatLong">
+		<div class="row">
+			<div class="col-md-2 col-md-offset-4">
+				<b>Lat</b>:
+			</div>
+			<div class="col-md-2">
+				{{ latitude | latlong:'lat'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-4">
+				<b>Long</b>:
+			</div>
+			<div class="col-md-2">
+				{{ longitude | latlong:'long'}}
+			</div>
+		</div>
+	</div>
 </div>
 

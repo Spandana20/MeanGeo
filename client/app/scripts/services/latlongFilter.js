@@ -4,7 +4,7 @@ angular.module('clientApp')
   .filter('latlong', ['$sce', function ($sce) {
 		// modified from Ryan Chenkie: 
 		// http://ryanchenkie.com/angularjs-custom-filters/
-    function toDegreesMinutesSeconds(coordinate) {
+    function toDegreesMinutesSeconds(coordinate, type) {
       var degrees = coordinate[0].split('.')[0];
       var minutes = Math.abs(
                       Math.floor(60 * (Math.abs(
@@ -13,7 +13,30 @@ angular.module('clientApp')
                             Math.abs(degrees) -
                             Math.abs(minutes) / 60).toFixed(2);
 
-      return $sce.trustAsHtml(degrees + '° ' + minutes + '′ ' + seconds + '″ ');
+      var string = $sce.trustAsHtml(degrees + '° ' + minutes + '′ ' + seconds + '″');
+
+      var direction = '';
+
+      if (type === 'lat') {
+        if (degrees < 0) {
+          direction +='N';
+          degrees = Math.abs(degrees);
+        }
+        else if (degrees > 0) {
+          direction += 'S';
+        }
+      }
+      if (type === 'long') {
+        if (degrees < 0) {
+          direction += 'W';
+          degrees = Math.abs(degrees);
+        }
+        else if (degrees > 0) {
+          direction += 'E';
+        }
+      }
+
+      return string + direction;  
     }
 
 		function coordinateIsValid(coordinate, type) {
@@ -28,7 +51,7 @@ angular.module('clientApp')
 				}
 				// The degree values longitude coordinates have a range 
 				// between -180 and 180
-				else if (coordinate[0] && type === 'lon') {
+				else if (coordinate[0] && type === 'long') {
 					if (!parseInt(coordinate[0]).between(-180, 180)) {
 						return false;
 					}
@@ -52,6 +75,8 @@ angular.module('clientApp')
 		}
 
     return function (number, type) {
+			console.log('number - ' + number);
+			console.log('type - ' + type);
       if (!isNaN(number)) {
         var pattern = /[-+]?[0-9]*\.?[0-9]+/g;
 
@@ -61,7 +86,7 @@ angular.module('clientApp')
 
         if (aMatches && coordinateIsValid(aMatches, type)) {
           if (aMatches.length === 1) {
-            return toDegreesMinutesSeconds(aMatches);
+            return toDegreesMinutesSeconds(aMatches, type);
           }
         }
       }
