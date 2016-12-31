@@ -14,7 +14,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="street">Street Address</label>  
       <div class="col-md-5">
-      <input id="street" name="street" ng-model="address.street" type="text" placeholder="1002 Fairlawn Dr." class="form-control input-md">
+      <input id="street" name="street" ng-model="address.street" type="text" placeholder="1002 Fairlawn Dr" class="form-control input-md">
         
       </div>
     </div>
@@ -74,6 +74,13 @@
 			</div>
 			<div class="col-md-2">
 				{{ longitude | latlong:'long'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5 col-md-offset-4">
+        <a ui-sref="map({latitude:latitude,longitude:longitude})">
+          <button class="btn">Map</button>
+        </a> 
 			</div>
 		</div>
 	</div>

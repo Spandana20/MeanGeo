@@ -75,8 +75,6 @@ angular.module('clientApp')
 		}
 
     return function (number, type) {
-			console.log('number - ' + number);
-			console.log('type - ' + type);
       if (!isNaN(number)) {
         var pattern = /[-+]?[0-9]*\.?[0-9]+/g;
 
