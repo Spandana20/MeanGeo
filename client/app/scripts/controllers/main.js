@@ -250,6 +250,19 @@ angular.module('clientApp')
           $scope.longitude = response.data.x;
           $scope.latitude = response.data.y;
           $scope.fDisplayLatLong = true;
+
+          $http({
+            method: 'POST',
+            data: {
+              latitude: $scope.latitude,
+              longitude: $scope.longitude
+            },
+            url: '/weather'
+          }).then(function successCallback(response) {
+            console.log('got the weather');
+          }, function errorCallback(response) {
+            $window.alert(response.data.message);
+          });
         }
         else {
           $scope.fDisplayLatLong = false;

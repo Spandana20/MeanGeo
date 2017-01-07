@@ -1,11 +1,11 @@
-var express = require('express');
-var path = require('path');
+var express =       require('express');
+var path =          require('path');
 //var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var logger =        require('morgan');
+var cookieParser =  require('cookie-parser');
+var bodyParser =    require('body-parser');
 
-var routes = require('./router/index');
+var routes =        require('./router/index');
 
 var app = express();
 
