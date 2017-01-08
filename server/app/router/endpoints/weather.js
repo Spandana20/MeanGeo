@@ -21,44 +21,52 @@ exports.fetch = function (req, res, next) {
 
     client.NDFDgenByDay(args, function(err, resWeather, body) {
 
-        parseString(body, function(err, result){
+      parseString(body, function(err, resultOutside){
 
-          var dayWeather = result['SOAP-ENV:Envelope']['SOAP-ENV:Body'][0]['ns1:NDFDgenByDayResponse'][0]['dwmlByDayOut'][0]['_'];
+        var dayWeather = resultOutside['SOAP-ENV:Envelope']['SOAP-ENV:Body'][0]['ns1:NDFDgenByDayResponse'][0]['dwmlByDayOut'][0]['_'];
 
-          parseString(dayWeather, function(err, result){
-            if (err) return next();
-						
-						var data = result['dwml']['data'][0];
-          
-        	  var moreWeatherInformation = data.moreWeatherInformation[0]['_'];
-						var parameters = data.parameters;
-						var temperatures = parameters[0]['temperature'];
-						var weatherObj = {};
-						for (var i = 0; i < temperatures.length; i++) {
-							weatherObj[temperatures[i]['name'][0]] = temperatures[i]['value'][0];
-						}
+        parseString(dayWeather, 
+          (function(err, result){ // closure
+            return function(err, result) {
+              if (err) return next();
+              
+              var object = resultOutside;
+              delete object['SOAP-ENV:Envelope']['SOAP-ENV:Body'][0]['ns1:NDFDgenByDayResponse'][0]['dwmlByDayOut'][0]['_'];
+              object['SOAP-ENV:Envelope']['SOAP-ENV:Body'][0]['ns1:NDFDgenByDayResponse'][0]['dwmlByDayOut'][0]['_'] = result;
 
-						var weather = parameters[0].weather[0];
-						weatherObj['am'] = weather['weather-conditions'][0]['$']['weather-summary']; 
-						weatherObj['pm'] = weather['weather-conditions'][1]['$']['weather-summary']; 
-						weatherObj['moreWeatherInformation'] = moreWeatherInformation;
+              // The XML that you get back from the endpoint
+              // is rather complex.  Here it is for you in
+              // JSON format.
+              console.log('body = ' + JSON.stringify(object, null, 2));
+              
+              var data = result['dwml']['data'][0];
+            
+              var moreWeatherInformation = data.moreWeatherInformation[0]['_'];
+              var parameters = data.parameters;
+              var temperatures = parameters[0]['temperature'];
+              var weatherObj = {};
+              for (var i = 0; i < temperatures.length; i++) {
+                weatherObj[temperatures[i]['name'][0]] = temperatures[i]['value'][0];
+              }
 
-						var icons = parameters[0]['conditions-icon'][0];
-						weatherObj['amIcon'] = icons['icon-link'][0];
-						weatherObj['pmIcon'] = icons['icon-link'][1];
+              var weather = parameters[0].weather[0];
+              weatherObj['am'] = weather['weather-conditions'][0]['$']['weather-summary']; 
+              weatherObj['pm'] = weather['weather-conditions'][1]['$']['weather-summary']; 
+              weatherObj['moreWeatherInformation'] = moreWeatherInformation;
 
-            console.log(weatherObj);
+              var icons = parameters[0]['conditions-icon'][0];
+              weatherObj['amIcon'] = icons['icon-link'][0];
+              weatherObj['pmIcon'] = icons['icon-link'][1];
 
-            res.status(200).json(
-              weatherObj
-            );
-          });
-        });
-/*      }
-      else {
-				res.status(resWeather.statusCode).json(body);
-      }
-     */
+              console.log(weatherObj);
+
+              res.status(200).json(
+                weatherObj
+              );
+            };// return function(err, result)));
+          })(resultOutside) // end closure
+        );
+      });
     });
   });
 };
