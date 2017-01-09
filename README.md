@@ -77,7 +77,10 @@ Open up a browser at http://localhost:3000. You should see your app:
 <a id="front-page">
 ##</a> [top](#top)
 
-![meanseed front page](https://cloud.githubusercontent.com/assets/1727761/21093854/abdd6b3a-c019-11e6-9e5a-d17f72920dc6.png)
+![meangeofrontpage](https://cloud.githubusercontent.com/assets/1727761/21756775/49639c26-d5eb-11e6-9b54-5cc0c8057e36.png)
+
+After you enter a US address, you can look for a map, the JSON code for the weather, or the weather.
+![withlatlong](https://cloud.githubusercontent.com/assets/1727761/21756803/9ca66c74-d5eb-11e6-8dbf-9f9f4145b2ee.png)
 <a id="host"></a>
 ##Host the code [top](#top)
 I have instruction on how to host this code [here](https://amnotafraid.gitbooks.io/i-mean-it/content/hosting_on_bitnami.html)
