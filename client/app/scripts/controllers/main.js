@@ -9,227 +9,36 @@
  */
 angular.module('clientApp')
   .controller('MainCtrl', [
+    'address',
     '$http',
     '$scope',
+    'states',
     '$window',
-  function ($http, $scope, $window) { // note the added $http depedency
+  function (address, $http, $scope, states, $window) { // note the added $http depedency
 
-		$scope.latitude = 0;
-		$scope.longitude = 0;
+    if (address.getLatLong()) {
+      var object = address.getLatLong();
+      $scope.latitude = object.latitude;
+      $scope.longitude = object.longitude;
+      $scope.fDisplayLatLong = true;
+    }
+    else {
+      $scope.latitude = 0;
+      $scope.longitude = 0;
+      $scope.fDisplayLatLong = false;
+    }
 
-    $scope.fDisplayLatLong = false;
-
-		$scope.states = [
-			{
-				"name": "Alabama",
-				"abbreviation": "AL"
-			},
-			{
-				"name": "Alaska",
-				"abbreviation": "AK"
-			},
-			{
-				"name": "Arizona",
-				"abbreviation": "AZ"
-			},
-			{
-				"name": "Arkansas",
-				"abbreviation": "AR"
-			},
-			{
-				"name": "California",
-				"abbreviation": "CA"
-			},
-			{
-				"name": "Colorado",
-				"abbreviation": "CO"
-			},
-			{
-				"name": "Connecticut",
-				"abbreviation": "CT"
-			},
-			{
-				"name": "Delaware",
-				"abbreviation": "DE"
-			},
-			{
-				"name": "District Of Columbia",
-				"abbreviation": "DC"
-			},
-			{
-				"name": "Florida",
-				"abbreviation": "FL"
-			},
-			{
-				"name": "Georgia",
-				"abbreviation": "GA"
-			},
-			{
-				"name": "Hawaii",
-				"abbreviation": "HI"
-			},
-			{
-				"name": "Idaho",
-				"abbreviation": "ID"
-			},
-			{
-				"name": "Illinois",
-				"abbreviation": "IL"
-			},
-			{
-				"name": "Indiana",
-				"abbreviation": "IN"
-			},
-			{
-				"name": "Iowa",
-				"abbreviation": "IA"
-			},
-			{
-				"name": "Kansas",
-				"abbreviation": "KS"
-			},
-			{
-				"name": "Kentucky",
-				"abbreviation": "KY"
-			},
-			{
-				"name": "Louisiana",
-				"abbreviation": "LA"
-			},
-			{
-				"name": "Maine",
-				"abbreviation": "ME"
-			},
-			{
-				"name": "Maryland",
-				"abbreviation": "MD"
-			},
-			{
-				"name": "Massachusetts",
-				"abbreviation": "MA"
-			},
-			{
-				"name": "Michigan",
-				"abbreviation": "MI"
-			},
-			{
-				"name": "Minnesota",
-				"abbreviation": "MN"
-			},
-			{
-				"name": "Mississippi",
-				"abbreviation": "MS"
-			},
-			{
-				"name": "Missouri",
-				"abbreviation": "MO"
-			},
-			{
-				"name": "Montana",
-				"abbreviation": "MT"
-			},
-			{
-				"name": "Nebraska",
-				"abbreviation": "NE"
-			},
-			{
-				"name": "Nevada",
-				"abbreviation": "NV"
-			},
-			{
-				"name": "New Hampshire",
-				"abbreviation": "NH"
-			},
-			{
-				"name": "New Jersey",
-				"abbreviation": "NJ"
-			},
-			{
-				"name": "New Mexico",
-				"abbreviation": "NM"
-			},
-			{
-				"name": "New York",
-				"abbreviation": "NY"
-			},
-			{
-				"name": "North Carolina",
-				"abbreviation": "NC"
-			},
-			{
-				"name": "North Dakota",
-				"abbreviation": "ND"
-			},
-			{
-				"name": "Ohio",
-				"abbreviation": "OH"
-			},
-			{
-				"name": "Oklahoma",
-				"abbreviation": "OK"
-			},
-			{
-				"name": "Oregon",
-				"abbreviation": "OR"
-			},
-			{
-				"name": "Pennsylvania",
-				"abbreviation": "PA"
-			},
-			{
-				"name": "Rhode Island",
-				"abbreviation": "RI"
-			},
-			{
-				"name": "South Carolina",
-				"abbreviation": "SC"
-			},
-			{
-				"name": "South Dakota",
-				"abbreviation": "SD"
-			},
-			{
-				"name": "Tennessee",
-				"abbreviation": "TN"
-			},
-			{
-				"name": "Texas",
-				"abbreviation": "TX"
-			},
-			{
-				"name": "Utah",
-				"abbreviation": "UT"
-			},
-			{
-				"name": "Vermont",
-				"abbreviation": "VT"
-			},
-			{
-				"name": "Virginia",
-				"abbreviation": "VA"
-			},
-			{
-				"name": "Washington",
-				"abbreviation": "WA"
-			},
-			{
-				"name": "West Virginia",
-				"abbreviation": "WV"
-			},
-			{
-				"name": "Wisconsin",
-				"abbreviation": "WI"
-			},
-			{
-				"name": "Wyoming",
-				"abbreviation": "WY"
-			}
-		];
-	$scope.address = {};
+    if (address.getAddress()) {
+      $scope.address = address.getAddress();
+    }
+    else {
+      $scope.address = {};
+    }
 	
+		$scope.states = states.states();
+
     // This is our method that will post to our server.
     $scope.addressSubmit = function () {
-      
       
       // make sure all fields are filled out...
       if (
@@ -240,6 +49,9 @@ angular.module('clientApp')
         $window.alert('Please fill out street address, city, and state, OR street address and zipcode');
         return false;
       }
+      else {
+        address.setAddress($scope.address);
+      }
 
 			$http({
 				method: 'POST',
@@ -249,20 +61,8 @@ angular.module('clientApp')
         if (response.status === 200) {
           $scope.longitude = response.data.x;
           $scope.latitude = response.data.y;
+          address.setLatLong($scope.latitude, $scope.longitude);
           $scope.fDisplayLatLong = true;
-
-          $http({
-            method: 'POST',
-            data: {
-              latitude: $scope.latitude,
-              longitude: $scope.longitude
-            },
-            url: '/weather'
-          }).then(function successCallback(response) {
-            console.log('got the weather');
-          }, function errorCallback(response) {
-            $window.alert(response.data.message);
-          });
         }
         else {
           $scope.fDisplayLatLong = false;
@@ -272,7 +72,5 @@ angular.module('clientApp')
         $scope.fDisplayLatLong = false;
         $window.alert(response.data.message);
 			});
-
     };
-    
   }]);

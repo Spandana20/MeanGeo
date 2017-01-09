@@ -1,0 +1,29 @@
+<div class="container">
+	<div>
+		<button>
+			<a ui-sref="home">home</a>
+		</button>
+	</div>
+  <span us-spinner ng-show="loading"></span>
+  <div class="row" ng-show="!loading">
+		<table class="table table-bordered">
+			<thead>
+				<tr class="tr-header">
+					<th class="numeric">Picture</th>
+					<th class="numeric">Temperature</th>
+					<th class="numeric"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td data-title="Picture" rowspan="2" align="center"><img src="{{ icon }}" alt="weather picture"></br>{{ summary }}</td>
+					<td data-title="temperature"><b>min</b>: {{ minTemp }}&deg;</td>
+          <td data-title="" rowspan="2" align="center" style="vertical-align:middle"><a href="{{ urlMore }}" target="_blank">More Information</a></td>
+				</tr>
+        <tr>
+					<td data-title="temperature"><b>max</b>: {{ maxTemp }}&deg;</td>
+        </tr>
+			</tbody>
+		</table>
+	</div>
+</div>
