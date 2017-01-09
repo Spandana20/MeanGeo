@@ -17,9 +17,9 @@ I wanted to learn about WSDL (pronounced wiz-dull) format, so I set out to use o
 
 This uses [NDFD WSDL](http://graphical.weather.gov/xml/) to get weather information in a MEAN stack application.  [US Census Geocoder](https://geocoding.geo.census.gov/) converts a US address to lat and long, and  [angular-google-maps](https://angular-ui.github.io/angular-google-maps/#!/) shows a map.
 
-At first, I thought the US Census Geocoder and angular-google-maps were going to help me learn about WSDLs, but they're not WSDLs.  The Geocoder thing is a REST API.  I just smack some URL parameters on the back of URL and do a request, and it responds with some data.  With angular-google-maps, it's even simpler.  It all happens on the client side.  You just hand it a lat and long and a few other parameters, stick it in a div, and you've got a map.  You don't even have to mess with the back end.
+At first, I thought the US Census Geocoder and angular-google-maps were going to help me learn about WSDLs, but they're not WSDLs.  The Geocoder thing is a REST API.  I just smack some URL parameters on the back of a URL and do a request, and it responds with some nice JSON data.  With angular-google-maps, it's even simpler.  It all happens on the client side.  You just hand it a lat and long and a few other parameters, stick it in a div, and you've got a map.
 
-The weather thing is a WSDL.  I had to use a create a SOAP client with the NDFD WSDL XML, and then thread through the responding XML.  Here's a few references that I found helpful for figuring WSDL out:
+The weather thing *_is_* a WSDL.  I had to use a create a SOAP client with the NDFD WSDL XML, and then thread through the responding XML.  Here's a few references that I found helpful for figuring WSDL out:
 
 | Description  | Link |
 | ------------- | ------------- |
