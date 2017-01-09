@@ -2,6 +2,8 @@
 #MeanGeo
 * [Introduction](#intro)
 
+* [References](#reference)
+
 * [Build the Code](#build)
 
 * [Run the Code](#run)
@@ -19,7 +21,12 @@ This uses [NDFD WSDL](http://graphical.weather.gov/xml/) to get weather informat
 
 At first, I thought the US Census Geocoder and angular-google-maps were going to help me learn about WSDLs, but they're not WSDLs.  The Geocoder thing is a REST API.  I just smack some URL parameters on the back of a URL and do a request, and it responds with some nice JSON data.  With angular-google-maps, it's even simpler.  It all happens on the client side.  You just hand it a lat and long and a few other parameters, stick it in a div, and you've got a map.
 
-The weather thing *_is_* a WSDL.  I had to create a SOAP client with the NDFD WSDL XML, and then thread through the responding XML.  Here's a few references that I found helpful for figuring things out:
+The weather thing *_is_* a WSDL.  I had to create a SOAP client with the NDFD WSDL XML, and then thread through the responding XML.
+
+<a id="references"></a>
+##References [top](#top)
+
+Here's a few references that I found helpful for figuring things out:
 
 | Description  | Link |
 | ------------- | ------------- |
