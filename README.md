@@ -46,21 +46,11 @@ v6.0.0
  npm -v express
 3.8.6
 ```
-If you have Node, Mongo, Bower, Compass, and Git installed on a Mac OSX computer, you can deploy the MeanSeed application as follows. These directions should work for a Windows environment with some modifications.
+If you have Node, Bower, Compass, and Git installed on a Mac OSX computer, you can deploy the MeanSeed application as follows. These directions should work for a Windows environment with some modifications.
 
 First, clone the MeanGeo code. In the directory where you want the root, do a git clone. It will create a MeanSeed directory and get all the code inside that directory:
 ```
 git clone https://github.com/amnotafraid/MeanGeo.git
-```
-In the MeanGeo directory, you want a directory structure for your data that looks like this:
-```
-└─data
-     ├── db
-     └── logs
-```
-You can get that by going inside the MeanGeo directory and typing:
-```
-mkdir -p data/db && mkdir data/logs
 ```
 In the MeanGeo/client directory, install the software needed like this:
 ```
@@ -73,10 +63,6 @@ npm install
 ```
 <a id="run"></a>
 ##Run the code [top](#top)
-In the MeanGeo directory, start mongo with the following command:
-```
-mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
-```
 Start the software in the client directory, MeanGeo/client:
 ```
 grunt serve
