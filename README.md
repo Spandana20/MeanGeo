@@ -23,7 +23,7 @@ The weather thing *_is_* a WSDL.  I had to use a create a SOAP client with the N
 
 | Description  | Link |
 | ------------- | ------------- |
-| SoapUI is a handy application for deciphering and testing WSDLs  | [SoapUI]https://www.soapui.org/)  |
+| SoapUI is a handy application for deciphering and testing WSDLs  | [SoapUI](https://www.soapui.org/)  |
 | Herong's tutorials will help you figure out SoapUI and learn about free web services  | [Free Web Services - Herong's Tutorial Examples](http://www.herongyang.com/Free-Web-Service/index.html)  |
 | This post was really useful in figuring out how to deal with SOAP APIs and XML in Node.js | [Jowanza Joseph](http://www.jowanza.com/post/125602755114/dealing-with-soap-apis-in-nodejs) |
 
