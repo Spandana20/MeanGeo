@@ -38,8 +38,6 @@ Some version info:
 ```
 node -v
 v6.0.0
-mongo --version
-MongoDB shell version: 3.2.0
 /**
  * @license AngularJS v1.5.10
  * (c) 2010-2016 Google, Inc. http://angularjs.org
