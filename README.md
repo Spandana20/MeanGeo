@@ -29,7 +29,7 @@ The weather thing *_is_* a WSDL.  I had to create a SOAP client with the NDFD WS
 
 *_Using_* a WSDL is a lot different from *_developing_* a WSDL.  If you've got to do that, I found this fabulous tutorial, understatedly referred to as a 'primer', from W3C:  [W3C WSDL Primer](https://www.w3.org/TR/wsdl20-primer/)
 
-One more thing, calling this a MEAN application is a bit of a misnomer.  M stands for Mongo.  I don't store any data, so I'm not using Mongo.  I think I tore all the database stuff of this thing.  I guess it's an EAN stack application.
+One more thing, calling this a MEAN application is a bit of a misnomer.  M stands for Mongo.  I don't store any data, so I'm not using Mongo.  I think I tore all the database stuff out of this thing after I cloned it from [MeanSeed](https://github.com/amnotafraid/MeanSeed).  I guess it's an EAN stack application.
 
 <a id="build"></a>
 ##Build the Code [top](#top)
