@@ -9,68 +9,71 @@
  */
 angular.module('clientApp')
   .controller('MainCtrl', [
-    'address',
     '$http',
     '$scope',
-    'states',
     '$window',
-  function (address, $http, $scope, states, $window) { // note the added $http depedency
+  function ($http, $scope, $window) { // note the added $http depedency
 
-    if (address.getLatLong()) {
-      var object = address.getLatLong();
-      $scope.latitude = object.latitude;
-      $scope.longitude = object.longitude;
-      $scope.fDisplayLatLong = true;
-    }
-    else {
-      $scope.latitude = 0;
-      $scope.longitude = 0;
-      $scope.fDisplayLatLong = false;
-    }
+    $scope.loading = true;
+    $scope.aLocations = [];
+		$scope.selectedIndex = -1;
+		$scope.fShowWeatherJSON = false;
 
-    if (address.getAddress()) {
-      $scope.address = address.getAddress();
-    }
-    else {
-      $scope.address = {};
-    }
-	
-		$scope.states = states.states();
-
+    console.log('MainCtrl');
     // This is our method that will post to our server.
-    $scope.addressSubmit = function () {
-      
-      // make sure all fields are filled out...
-      if (
-         !$scope.address.street ||
-          (!$scope.address.state && !$scope.address.zip) ||
-          ($scope.address.street && !$scope.address.city && $scope.address.state)
-      ) {
-        $window.alert('Please fill out street address, city, and state, OR street address and zipcode');
-        return false;
-      }
-      else {
-        address.setAddress($scope.address);
-      }
+    $http({
+      method: 'GET',
+      url: '/locations'
+    }).then(function successCallback(response) {
+      $scope.aLocations = response.data;
+    }, function errorCallback(response) {
+      $window.alert('Got an error from GET /locations');
+    });
+
+		$scope.showSelected = function(index) {
+			console.log('select function');
+			$scope.selectedIndex = index;	
+			$scope.fShowWeatherJSON = false;
 
 			$http({
 				method: 'POST',
-				data: $scope.address,
-				url: '/geo'
+				data: {
+					latitude: $scope.aLocations[$scope.selectedIndex].latitude,
+					longitude: $scope.aLocations[$scope.selectedIndex].longitude
+				},
+				url: '/someWeather'
 			}).then(function successCallback(response) {
-        if (response.status === 200) {
-          $scope.longitude = response.data.x;
-          $scope.latitude = response.data.y;
-          address.setLatLong($scope.latitude, $scope.longitude);
-          $scope.fDisplayLatLong = true;
-        }
-        else {
-          $scope.fDisplayLatLong = false;
-          $window.alert(response.data.message);
-        }
+				console.log('got the weather');
+				$scope.maxTemp = response.data['Daily Maximum Temperature'];
+				$scope.minTemp = response.data['Daily Minimum Temperature'];
+				$scope.summary = response.data['summary'];
+				$scope.urlMore = response.data['moreWeatherInformation'];
+				$scope.icon = response.data['icon'];
+				$scope.loading = false;
 			}, function errorCallback(response) {
-        $scope.fDisplayLatLong = false;
-        $window.alert(response.data.message);
+				$window.alert(response.data.message);
 			});
-    };
+		};
+
+		$scope.showWeatherJSON = function() {
+			if ($scope.fShowWeatherJSON) {
+				$scope.fShowWeatherJSON = false;
+			}
+			else {
+				$scope.data = $http({
+						method: 'POST',
+						data: {
+							latitude: $scope.aLocations[$scope.selectedIndex].latitude,
+							longitude: $scope.aLocations[$scope.selectedIndex].longitude
+						},
+						url: '/allWeather'
+					}).then(function successCallback(response) {
+						$scope.data = response.data;
+						$scope.fShowWeatherJSON = true;
+					}, function errorCallback(response) {
+						$window.alert(response.data.message);
+					});
+			}
+		};
+
   }]);

@@ -36,30 +36,12 @@ angular
 				libraries: 'weather,geometry,visualization'
 			});
     $stateProvider
-      .state('allWeather', {
-        url: '/allWeather/:latitude?longitude',
-        templateUrl: 'views/allWeather.html',
-        controller: 'AllWeatherCtrl',
-        controllerAs: 'allWeather'
-      })
       .state('home', {
         url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .state('map', {
-        url: '/map/:latitude?longitude',
-        templateUrl: 'views/map.html',
-        controller: 'MapCtrl',
-        controllerAs: 'map'
-      })
-      .state('someWeather', {
-        url: '/someWeather/:latitude?longitude',
-        templateUrl: 'views/someWeather.html',
-        controller: 'SomeWeatherCtrl',
-        controllerAs: 'someWeather'
-      });
     $urlRouterProvider.otherwise('/');
   }
 ]);

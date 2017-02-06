@@ -1,4 +1,11 @@
 var request     = require('request');
+var aLocations = [
+	{ id: 1, zip: 61801, location: 'Urbana, IL', latitude: 40.10243, longitude: -88.19666 },
+	{ id: 2, zip: 75230, location: 'Dallas, TX', latitude: 32.90351, longitude: -96.771194 },
+	{ id: 3, zip: 20500, location: 'Washington, DC', latitude: 38.898754, longitude: -77.03535 },
+	{ id: 4, zip: 98804, location: 'Bellevue, WA', latitude: 47.616505, longitude: -122.20169 },
+	{ id: 5, zip: 80301, location: 'Boulder, CO', latitude: 40.059013, longitude: -105.21812 }
+];
 
 function getAsUriParameters(data) {
 	var url = '';
@@ -7,6 +14,11 @@ function getAsUriParameters(data) {
 				encodeURIComponent(data[prop]) + '&';
 	}
 	return url.substring(0, url.length - 1)
+};
+
+exports.locations = function (req, res, next) {
+  console.log('geo.locations');
+  res.status(200).json(aLocations);
 };
 
 exports.fetch = function (req, res, next) {

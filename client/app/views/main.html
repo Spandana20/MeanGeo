@@ -1,96 +1,41 @@
-<div class="form-container">
-  <div class="col-md-12">
-    <h3 class="form-header">Enter your address and get your lat/long</h3>
-    <hr>
-    <br>
-  </div>
-
-  <div class="signup-form">
-    
-    <form ng-submit="addressSubmit()"  class="form-horizontal">
-
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="street">Street Address</label>  
-      <div class="col-md-5">
-      <input id="street" name="street" ng-model="address.street" type="text" placeholder="1002 Fairlawn Dr" class="form-control input-md">
-        
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="city">City</label>  
-      <div class="col-md-5">
-      <input id="city" name="city" ng-model="address.city" type="text" placeholder="Urbana" class="form-control input-md">
-        
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="state">State</label>  
-      <div class="col-md-5">
-        <!--      <input id="state" name="state" ng-model="address.state" type="text" placeholder="amnotafraid@gmail.com" class="form-control input-md"> -->
-				<select ng-model="address.state">
-					<option ng-repeat="state in states">{{ state.abbreviation }}</option>
-				</select>
-        
-      </div>
-    </div>
-
-    <!-- Text input-->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="zip">Zipcode</label>  
-      <div class="col-md-5">
-      <input id="zip" name="zip" ng-model="address.zip" type="text" placeholder="61801" class="form-control input-md">
-        
-      </div>
-    </div>
-
-    <!-- Button -->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="signup"></label>
-      <div class="col-md-5">
-        <button id="signup" name="signup" class="btn btn-success btn-block">Submit Address</button>
-      </div>
-    </div>
-
-    </form>
-  </div>
-	<div ng-show="fDisplayLatLong">
-		<div class="row">
-			<div class="col-md-2 col-md-offset-4">
-				<b>Lat</b>:
-			</div>
-			<div class="col-md-2">
-				{{ latitude | latlong:'lat'}}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<ul class="locations">
+        <li ng-repeat="location in aLocations track by $index" ng-click="showSelected($index)" ng-class="{selected: $index === selectedIndex}"><span class="zip">{{location.zip}}</span> {{location.location}}
+				</li>
+			</ul>
+		</div>
+		<div class="col-lg-6">
+			<div ng-show="selectedIndex > -1">
+				<div us-spinner ng-show="loading"></div>
+				<div ng-show="!loading">
+					<table class="table table-bordered">
+						<tbody>
+              <tr>
+                <td data-title="" colspan="3" align="center" style="vertical-align:middle">{{ aLocations[selectedIndex] }}</td>
+              </tr>
+							<tr>
+								<td data-title="Picture" rowspan="2" align="center"><img src="{{ icon }}" alt="weather picture"></br>{{ summary }}</td>
+								<td data-title="temperature"><b>min</b>: {{ minTemp }}&deg;</td>
+								<td data-title="" rowspan="2" align="center" style="vertical-align:middle"><a href="{{ urlMore }}" target="_blank">More Information</a></td>
+							</tr>
+							<tr>
+								<td data-title="temperature"><b>max</b>: {{ maxTemp }}&deg;</td>
+							</tr>
+							<tr>
+								<td data-title="" colspan="3" align="center" style="vertical-align:middle"><button class="btn" ng-click="showWeatherJSON()" ng-bind-html="fShowWeatherJSON ? 'Hide Details' : 'Show Details'"></button>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-2 col-md-offset-4">
-				<b>Long</b>:
-			</div>
-			<div class="col-md-2">
-				{{ longitude | latlong:'long'}}
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-5 col-md-offset-4">
-        <a ui-sref="map({latitude:latitude,longitude:longitude})">
-          <button class="btn">Map</button>
-        </a> 
-        &nbsp;
-        <a ui-sref="allWeather({latitude:latitude,longitude:longitude})">
-          <button class="btn">Weather JSON</button>
-        </a> 
-        &nbsp;
-        <a ui-sref="someWeather({latitude:latitude,longitude:longitude})">
-          <button class="btn">Weather</button>
-        </a> 
-			</div>
-		</div>
+	</div>
+	<div class="row" ng-show="fShowWeatherJSON">
+		<h1>Weather Data</h1>
+		<pre>
+			{{ data | json }}
+		</pre>
 	</div>
 </div>
 

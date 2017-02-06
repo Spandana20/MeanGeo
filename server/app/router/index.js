@@ -9,8 +9,8 @@ module.exports = function (
     app
     ) {
 
-  app.route('/geo')
-    .post(geo.fetch);
+  app.route('/locations')
+    .get(geo.locations);
 
   app.route('/someWeather')
     .post(weather.some);
